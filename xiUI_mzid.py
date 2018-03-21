@@ -147,8 +147,16 @@ class MzIdParser:
 
         start_time = time()
 
+        # Get the piece of the document described in the snippet
+        gen = self.mzid_reader.iterfind("FragmentTolerance")
+        datum = next(gen)
+
+        for k, v in datum.items():
+            print(k, type(k), k.accession, k.unit_accession)
+            print(v, type(v), v.unit_info)
+
         # ToDo: more gracefully handle missing files
-        self.peak_list_readers = self.read_peak_lists()
+        # self.peak_list_readers = self.read_peak_lists()
 
         #
         # upload info
@@ -162,15 +170,15 @@ class MzIdParser:
         #
         # Sequences, Peptides, Peptide Evidences (inc. peptide positions), Modifications
 
-        self.parse_db_sequences(self.mzid_reader)
-        self.parse_peptides(self.mzid_reader)
-        self.parse_peptide_evidences(self.mzid_reader)
-        self.map_spectra_data_to_protocol()     # ToDo: does not use self.mzid_reader
-        self.main_loop(self.mzid_reader)
+        # self.parse_db_sequences(self.mzid_reader)
+        # self.parse_peptides(self.mzid_reader)
+        # self.parse_peptide_evidences(self.mzid_reader)
+        # self.map_spectra_data_to_protocol()     # ToDo: does not use self.mzid_reader
+        # self.main_loop(self.mzid_reader)
 
         #
         # Fill missing scores with
-        score_fill_start_time = time()
+        # score_fill_start_time = time()
         # self.logger.info('fill in missing scores - start')
         # self.db.fill_in_missing_scores(self.cur, self.con)
         # self.logger.info('fill in missing scores - done. Time: ' + str(round(time() - score_fill_start_time, 2)) + " sec")
