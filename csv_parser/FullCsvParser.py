@@ -390,7 +390,7 @@ class FullCsvParser(AbstractCsvParser):
                 pep_evidence1 = [
                     pep1_id,                # peptide_ref
                     protein_list1[i],       # dbsequence_ref - ToDo: might change to numerical id
-                    protein_list1[i],       # protein_accession
+                    accession,       # protein_accession
                     pep_pos_list1[i],       # pep_start
                     is_decoy_list1[i],      # is_decoy
                     self.upload_id          # upload_id
@@ -398,7 +398,7 @@ class FullCsvParser(AbstractCsvParser):
 
                 peptide_evidences.append(pep_evidence1)
 
-            if cross_linked_id_item:
+            if cross_linked_id_item and pep1_id != pep2_id:
                 # peptide evidence - 2
 
                 if pep2_id is None:
@@ -414,7 +414,7 @@ class FullCsvParser(AbstractCsvParser):
                     pep_evidence2 = [
                         pep2_id,                # peptide_ref
                         protein_list2[i],       # dbsequence_ref - ToDo: might change to numerical id
-                        protein_list2[i],       # protein_accession
+                        accession,       # protein_accession
                         pep_pos_list2[i],       # pep_start
                         is_decoy_list2[i],      # is_decoy
                         self.upload_id          # upload_id
@@ -478,11 +478,16 @@ class FullCsvParser(AbstractCsvParser):
         db_sequences = []
         for prot in proteins:
             try:
-               #data = [prot] + self.fasta[prot] + [self.upload_id]
-               temp = self.fasta[prot]
-               data = [prot, temp[0], temp[1], temp[2], temp[3], self.upload_id] # surely there's a better way
+                # data = [prot] + self.fasta[prot] + [self.upload_id]
+                temp = self.fasta[prot]
+                data = [prot, temp[0], temp[1], temp[2], temp[3], self.upload_id]  # surely there's a better way
             except Exception as ke:
-               data = [prot, prot, prot, "", None, self.upload_id]
+                sp_regex = re.compile('(.*)\|(.*)\|(.*)')
+                matches = sp_regex.search(prot)
+                if matches is not None:
+                    data = [matches.group(), matches.group(2), matches.group(3), "", None, self.upload_id]
+                else:
+                    data = [prot, prot, prot, "", None, self.upload_id]
 
             db_sequences.append(data)
 

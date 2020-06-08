@@ -413,9 +413,11 @@ class MzIdParser:
             if "Seq" in db_sequence and isinstance(db_sequence["Seq"], basestring):
                 seq = db_sequence["Seq"]
                 data.append(seq)
+            elif "length" in db_sequence:
+                data.append("X" * db_sequence["length"])
             else:
                 # todo: get sequence
-                data.append("no sequence")
+                data.append("")
 
             data.append(self.upload_id)
 

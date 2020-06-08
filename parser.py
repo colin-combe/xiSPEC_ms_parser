@@ -112,10 +112,10 @@ try:
 
     if dev:
         # development test files
-        identifications_file = "/home/col/Downloads/TEST/PolII_XiVersion1.6.742_PSM_xiFDR1.1.27.csv"
+        # identifications_file = "/home/col/Downloads/test_HSA_XiVersion1.7.754.RC1.mzid"
         # identifications_file = "/home/col/mzid_tests/SIM-XL_example.mzid"
-        # identifications_file = "/var/www/html/xiUI_public/CLMS-model/csv_data/NPC.csv"
-        peakList_file = "/home/col/test2/Rappsilber_CLMS_PolII_mgfs.zip"
+        identifications_file = "/home/col/Downloads/thisOne.csv"
+        # peakList_file = "/home/col/test2/Rappsilber_CLMS_PolII_mgfs.zip"
 
         database = 'test.db'
         upload_folder = "/".join(identifications_file.split("/")[:-1]) + "/"
